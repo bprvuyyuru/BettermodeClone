@@ -5,7 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Posts from "./pages/Posts";
 import Navbar from "./components/Navbar";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
+import PostDetail from "./pages/PostDetail";
 
 function App() {
   return (
@@ -19,6 +20,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Posts />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/posts/:id"
+            element={
+              <PrivateRoute>
+                <PostDetail />
               </PrivateRoute>
             }
           />

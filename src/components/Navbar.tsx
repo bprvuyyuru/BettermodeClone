@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/bm-logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -10,15 +11,17 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-500 p-4 flex justify-between items-center">
-      <div className="text-white text-lg font-semibold">BetterMode</div>
-
+    <nav className="p-[2vw] flex justify-between items-center w-screen">
+      <div className="flex justify-between gap-4 items-center">
+        <img src={logo} alt="Website Logo" className="h-5"></img>
+        <span className="text-[#36454F] text-lg font-semibold">BetterMode</span>
+      </div>
       {token && (
         <button
           onClick={handleLogout}
-          className="bg-white text-blue-500 font-semibold py-2 px-4 rounded hover:bg-blue-100"
+          className="bg-[#36454F] text-white font-semibold py-2 px-6 rounded-3xl hover:bg-[#36454F]-100 cursor-pointer"
         >
-          Logout
+          Log out
         </button>
       )}
     </nav>
