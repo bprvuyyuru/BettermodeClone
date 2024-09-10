@@ -1,37 +1,17 @@
 import "./App.css";
 import client from "./graphql/ApolloClient";
 import { ApolloProvider } from "@apollo/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Posts from "./pages/Posts";
-import Navbar from "./components/Navbar";
-import PrivateRoute from "./PrivateRoute";
-import PostDetail from "./pages/PostDetail";
+import { BrowserRouter } from "react-router-dom";
+import Layout from "./components/Layout";
+import AppRoutes from "./routes/Approutes";
 
 function App() {
   return (
     <ApolloProvider client={client}>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/posts"
-            element={
-              <PrivateRoute>
-                <Posts />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/posts/:id"
-            element={
-              <PrivateRoute>
-                <PostDetail />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
+        <Layout>
+          <AppRoutes />
+        </Layout>
       </BrowserRouter>
     </ApolloProvider>
   );

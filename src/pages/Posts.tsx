@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { PostsData, PostsVars } from "../types";
 import { GET_POSTS } from "../graphql/mutations";
+import Spinner from "../components/Spinner";
 
 const Posts = () => {
   const limit = 6; // Number of posts per page
@@ -15,7 +16,7 @@ const Posts = () => {
     variables: { limit, offset },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
   const totalPages = Math.ceil(data!.posts.totalCount / limit);
@@ -38,13 +39,12 @@ const Posts = () => {
   };
 
   return (
-    <div className="container mx-auto h-screen">
-      <div className="p-2">
-        <div className="flex p-2 mb-6 items-center gap-8">
-          <h1 className="text-3xl font-bold">Posts</h1>
-          <p className="text-sm">{data?.posts.totalCount} posts</p>
-        </div>
+    <div className="flex flex-col justify-center px-[3rem]">
+      <div className="flex p-3 items-center gap-8">
+        <h1 className="text-2xl font-bold">Posts</h1>
+        <p className="text-sm">{data?.posts.totalCount} posts</p>
       </div>
+
       <Tablebox
         posts={data!.posts.nodes}
         currentPage={currentPage}

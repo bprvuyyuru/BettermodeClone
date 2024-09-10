@@ -8,6 +8,7 @@ import {
 } from "../graphql/mutations";
 import Card from "../components/Card";
 import { formatDistanceToNow } from "date-fns";
+import Spinner from "../components/Spinner";
 
 const PostDetail = () => {
   const { id } = useParams<{ id: any }>();
@@ -23,7 +24,7 @@ const PostDetail = () => {
     }
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
   const post = data?.post;
@@ -69,12 +70,12 @@ const PostDetail = () => {
     : "Unknown date";
 
   return (
-    <div className="container mx-auto h-screen">
+    <div className="container mx-auto h-auto">
       <div
-        className="flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-300 rounded-full cursor-pointer"
+        className="flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-600 rounded-full cursor-pointer"
         onClick={() => navigate(-1)}
       >
-        <i className="fas fa-solid fa-arrow-left text-[#36454F]"></i>
+        <i className="fas fa-solid fa-arrow-left"></i>
       </div>
       {post && (
         <Card

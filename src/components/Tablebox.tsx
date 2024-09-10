@@ -13,7 +13,7 @@ const Tablebox = ({
       <table className="w-full bg-white rounded-3xl table-fixed">
         <thead className="bg-[#36454F]">
           <tr>
-            <th className="text-left p-5 font-bold text-white rounded-tl-3xl w-[600px]">
+            <th className="text-left p-5 font-bold text-white rounded-tl-3xl w-[35vw]">
               Title
             </th>
             <th className="text-left p-5 font-bold text-white">Owner</th>
@@ -34,7 +34,12 @@ const Tablebox = ({
               <td className="p-6 text-[#36454F]">
                 <p className="font-semibold truncate">{post.title}</p>
               </td>
-              <td className="p-6 text-black font-bold">
+              <td className="p-6 text-[#36454F] font-normal flex items-center gap-1">
+                <div className="bg-[#65C61A] rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="text-xs text-white font-normal pb-1">
+                    {post.owner.member.name[0]}
+                  </span>
+                </div>
                 {post.owner.member.name}
               </td>
               <td className="p-6 text-gray-800">{post.space.name}</td>
@@ -43,15 +48,9 @@ const Tablebox = ({
               </td>
               <td className="p-6 text-gray-800">
                 {post.reactions.length > 0 ? (
-                  <div className="flex flex-col">
-                    {post.reactions.map((r, idx) => (
-                      <span key={idx} className="text-sm">
-                        {r.reaction} ({r.count})
-                      </span>
-                    ))}
-                  </div>
+                  <div className="flex flex-col">{post.reactions.length}</div>
                 ) : (
-                  "No reactions"
+                  "0"
                 )}
               </td>
             </tr>
@@ -59,14 +58,12 @@ const Tablebox = ({
         </tbody>
       </table>
 
-      {/* Pagination Bar */}
       <div className="flex justify-end items-center mt-8">
-        {/* <span className="text-gray-600 text-sm">Rows per page: {limit}</span> */}
         <div className="flex items-center space-x-2">
           <button
             onClick={onPrevPage}
             disabled={currentPage === 1}
-            className={`px-4 py-1 border rounded-3xl text-white bg-[#36454F] hover:bg-gray-800 ${
+            className={`flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-600 rounded-full cursor-pointer ${
               currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
@@ -78,7 +75,7 @@ const Tablebox = ({
           <button
             onClick={onNextPage}
             disabled={currentPage === totalPages}
-            className={`px-4 py-1 border rounded-3xl text-white bg-[#36454F] hover:bg-gray-800 ${
+            className={`flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-600 rounded-full cursor-pointer ${
               currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

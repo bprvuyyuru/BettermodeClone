@@ -84,7 +84,7 @@ const Card = ({
           </div>
         ))}
         <div
-          className="flex items-center justify-center h-12 w-12 bg-gray-200 rounded-full cursor-pointer"
+          className="flex items-center justify-center h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-full cursor-pointer"
           onClick={() => setShowAllReactions(!showAllReactions)} // Toggle reaction list visibility
         >
           <i className="fas fa-solid fa-plus text-[#36454F]"></i>
@@ -95,7 +95,7 @@ const Card = ({
             {allReactions.map((reaction) => (
               <div
                 key={reaction}
-                className="flex items-center justify-center h-12 w-12 bg-gray-100 rounded-full cursor-pointer"
+                className="flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-300 rounded-full cursor-pointer"
                 onClick={() => handleToggleReaction(reaction, postId)} // Add or remove reaction
               >
                 <span className="text-2xl">{getReactionIcon(reaction)}</span>

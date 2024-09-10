@@ -5,8 +5,6 @@ import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <body className="bg-[#D3D3D3] h-auto">
-      <App />
-    </body>
+    <App />
   </StrictMode>
 );
