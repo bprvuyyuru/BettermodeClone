@@ -3,7 +3,7 @@ import Tablebox from "../components/Tablebox";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { PostsData, PostsVars } from "../types";
-import { GET_POSTS } from "../graphql/mutations";
+import { GET_POSTS } from "../graphql/queries";
 import Spinner from "../components/Spinner";
 
 const Posts = () => {

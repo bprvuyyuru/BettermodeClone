@@ -3,9 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PostDetailData, PostDetailVars } from "../types";
 import {
   ADD_REACTION_MUTATION,
-  GET_POST_DETAILS,
   REMOVE_REACTION_MUTATION,
 } from "../graphql/mutations";
+import { GET_POST_DETAILS } from "../graphql/queries";
 import Card from "../components/Card";
 import { formatDistanceToNow } from "date-fns";
 import Spinner from "../components/Spinner";

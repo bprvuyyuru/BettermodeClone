@@ -3,7 +3,7 @@ import client from "./graphql/ApolloClient";
 import { ApolloProvider } from "@apollo/client";
 import { BrowserRouter } from "react-router-dom";
 import Layout from "./components/Layout";
-import AppRoutes from "./routes/Approutes";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
