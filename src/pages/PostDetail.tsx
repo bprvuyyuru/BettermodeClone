@@ -1,69 +1,31 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { PostDetailData, PostDetailVars } from "../types";
-import {
-  ADD_REACTION_MUTATION,
-  REMOVE_REACTION_MUTATION,
-} from "../graphql/mutations";
 import { GET_POST_DETAILS } from "../graphql/queries";
 import Card from "../components/Card";
 import { formatDistanceToNow } from "date-fns";
 import Spinner from "../components/Spinner";
+import useReactions from "../hooks/useReactions";
 
 const PostDetail = () => {
   const { id } = useParams<{ id: any }>();
   const navigate = useNavigate();
-  const [addReaction] = useMutation(ADD_REACTION_MUTATION);
-  const [removeReaction] = useMutation(REMOVE_REACTION_MUTATION);
 
   // Fetch post details using the ID
-  const { loading, error, data } = useQuery<PostDetailData, PostDetailVars>(
-    GET_POST_DETAILS,
-    {
-      variables: { id },
-    }
-  );
+  const { loading, error, data, refetch } = useQuery<
+    PostDetailData,
+    PostDetailVars
+  >(GET_POST_DETAILS, {
+    variables: { id },
+  });
+
+  const { toggleReaction } = useReactions(null, refetch, true);
 
   if (loading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
   const post = data?.post;
   const reactions = post?.reactions || [];
-
-  /// Handle adding or removing reactions
-  const toggleReaction = async (reactionName: string, postId: string) => {
-    const existingReaction = reactions.find((r) => r.reaction === reactionName);
-
-    if (existingReaction) {
-      // Remove reaction if it exists
-      await removeReaction({
-        variables: {
-          reaction: reactionName,
-          postId,
-        },
-        refetchQueries: [
-          {
-            query: GET_POST_DETAILS,
-            variables: { id: postId },
-          },
-        ],
-      });
-    } else {
-      // Add reaction if it doesn't exist
-      await addReaction({
-        variables: {
-          reaction: reactionName,
-          postId,
-        },
-        refetchQueries: [
-          {
-            query: GET_POST_DETAILS,
-            variables: { id: postId },
-          },
-        ],
-      });
-    }
-  };
 
   const timeAgo = post?.publishedAt
     ? formatDistanceToNow(new Date(post.publishedAt), { addSuffix: true })
@@ -86,7 +48,9 @@ const PostDetail = () => {
           publishedAt={timeAgo}
           reactions={reactions}
           postId={id}
-          toggleReaction={toggleReaction}
+          toggleReaction={(reactionName) =>
+            toggleReaction(reactionName, id, reactions)
+          }
         />
       )}
     </div>

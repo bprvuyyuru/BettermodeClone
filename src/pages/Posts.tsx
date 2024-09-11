@@ -1,57 +1,72 @@
-import { useState } from "react";
-import Tablebox from "../components/Tablebox";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { PostsData, PostsVars } from "../types";
 import { GET_POSTS } from "../graphql/queries";
 import Spinner from "../components/Spinner";
+import useReactions from "../hooks/useReactions";
+import { useNavigate } from "react-router-dom";
+import PostsGrid from "../components/PostsGrid";
 
 const Posts = () => {
-  const limit = 6; // Number of posts per page
-  const [offset, setOffset] = useState(0);
+  let limit = 6; // Number of posts per page
   const navigate = useNavigate();
 
   // Fetch posts with pagination
-  const { loading, error, data } = useQuery<PostsData, PostsVars>(GET_POSTS, {
-    variables: { limit, offset },
-  });
+  const { loading, error, data, fetchMore } = useQuery<PostsData, PostsVars>(
+    GET_POSTS,
+    {
+      variables: { limit, offset: 0 },
+    }
+  );
+
+  const { toggleReaction } = useReactions(
+    fetchMore,
+    null,
+    false,
+    data?.posts.nodes.length
+  );
+
+  const handleLoadMore = () => {
+    fetchMore({
+      variables: {
+        offset: data?.posts.nodes.length,
+      },
+      updateQuery: (prevResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prevResult;
+
+        // Merge the new posts with the existing ones
+        return {
+          ...prevResult,
+          posts: {
+            ...prevResult.posts,
+            nodes: [...prevResult.posts.nodes, ...fetchMoreResult.posts.nodes],
+            totalCount: fetchMoreResult.posts.totalCount,
+          },
+        };
+      },
+    });
+  };
 
   if (loading) return <Spinner />;
   if (error) return <p>Error: {error.message}</p>;
 
-  const totalPages = Math.ceil(data!.posts.totalCount / limit);
-  const currentPage = offset / limit + 1;
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setOffset(offset + limit);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (offset > 0) {
-      setOffset(offset - limit);
-    }
-  };
-
-  const handleRowClick = (postId: string) => {
+  const handlePostClick = (postId: string) => {
     navigate(`/posts/${postId}`);
   };
+  const allPostsLoaded = data!.posts.nodes.length >= data!.posts.totalCount;
 
   return (
     <div className="flex flex-col justify-center px-[3rem]">
       <div className="flex p-3 items-center gap-8">
         <h1 className="text-2xl font-bold">Posts</h1>
-        <p className="text-sm">{data?.posts.totalCount} posts</p>
+        <p className="text-sm">total {data?.posts.totalCount} posts</p>
       </div>
 
-      <Tablebox
+      <PostsGrid
         posts={data!.posts.nodes}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onNextPage={handleNextPage}
-        onPrevPage={handlePrevPage}
-        onRowClick={handleRowClick}
+        onLoadMore={handleLoadMore}
+        allPostsLoaded={allPostsLoaded}
+        onPostClick={handlePostClick}
+        toggleReaction={toggleReaction}
       />
     </div>
   );

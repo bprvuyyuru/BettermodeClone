@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CardProps } from "../types";
+import Reactions from "./Reactions";
 
 const Card = ({
   title,
@@ -11,8 +12,6 @@ const Card = ({
   postId,
   toggleReaction,
 }: CardProps) => {
-  const [showAllReactions, setShowAllReactions] = useState(false);
-  const allReactions = ["+1", "tada", "heart", "open_mouth"];
   const [showMore, setShowMore] = useState(false);
   const formattedContent = textContent?.replace(/\n/g, "<br/>");
   const charLimit = 1000;
@@ -20,11 +19,6 @@ const Card = ({
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
-  };
-
-  const handleToggleReaction = (reaction: string, postId: string) => {
-    toggleReaction(reaction, postId);
-    setShowAllReactions(!showAllReactions);
   };
 
   return (
@@ -71,56 +65,13 @@ const Card = ({
           </button>
         )}
       </div>
-
-      <div className="flex items-center mt-4 space-x-2">
-        {reactions.map((reaction, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-center h-12 w-12 bg-gray-200 rounded-full"
-          >
-            <span className="text-2xl">
-              {getReactionIcon(reaction.reaction)}
-            </span>
-          </div>
-        ))}
-        <div
-          className="flex items-center justify-center h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-full cursor-pointer"
-          onClick={() => setShowAllReactions(!showAllReactions)} // Toggle reaction list visibility
-        >
-          <i className="fas fa-solid fa-plus text-[#36454F]"></i>
-        </div>
-
-        {showAllReactions && (
-          <div className="flex space-x-1 p-1 border border-gray-200 rounded-full">
-            {allReactions.map((reaction) => (
-              <div
-                key={reaction}
-                className="flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-300 rounded-full cursor-pointer"
-                onClick={() => handleToggleReaction(reaction, postId)} // Add or remove reaction
-              >
-                <span className="text-2xl">{getReactionIcon(reaction)}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <Reactions
+        reactions={reactions}
+        postId={postId}
+        toggleReaction={toggleReaction}
+      />
     </div>
   );
-};
-
-const getReactionIcon = (reaction: string): string => {
-  switch (reaction) {
-    case "+1":
-      return "👍";
-    case "tada":
-      return "🎉";
-    case "heart":
-      return "❤️";
-    case "open_mouth":
-      return "😮";
-    default:
-      return "❓";
-  }
 };
 
 export default Card;

@@ -8,12 +8,11 @@ const httpLink = createHttpLink({
 const authLink = setContext((_, { headers }) => {
   // Retrieve the token from sessionStorage
   const token = sessionStorage.getItem("accessToken");
+  const communityToken = sessionStorage.getItem("communityToken");
   return {
     headers: {
       ...headers,
-      authorization: token
-        ? `Bearer ${token}`
-        : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IkdVRVNUX3pUaVpEclRQNlUzajludiIsIm5ldHdvcmtJZCI6IjNiMW40b3FpbWYiLCJuZXR3b3JrRG9tYWluIjoiYmFzaWMtM2Z0b3M5aHMuYmV0dGVybW9kZS5pbyIsInRva2VuVHlwZSI6IkdVRVNUIiwiZW50aXR5SWQiOm51bGwsInBlcm1pc3Npb25Db250ZXh0IjpudWxsLCJwZXJtaXNzaW9ucyI6bnVsbCwiaWF0IjoxNzI1NzI5Nzg4LCJleHAiOjE3MjgzMjE3ODh9.GjYRacI78ReJAVqlDlmqs3EWfjdgMj0RLujOuY2Cf_A",
+      authorization: `Bearer ${token ? token : communityToken}`,
     },
   };
 });

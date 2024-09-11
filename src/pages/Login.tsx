@@ -19,6 +19,7 @@ const Login = () => {
       onCompleted: (data) => {
         setAccessToken(data.tokens.accessToken);
         sessionStorage.setItem("communityToken", data.tokens.accessToken);
+        setError("");
       },
       onError: (_err) => {
         setError(
@@ -58,7 +59,6 @@ const Login = () => {
       <div className="bg-white shadow-md rounded-3xl w-[40vw] p-[2vw]">
         <h1 className="text-4xl font-bold text-center">Hello !</h1>
         <h2 className="text-sm m-2 text-center">Sign into your Account</h2>
-        {error && <p className="text-red-500">{error}</p>}
       </div>
       {/* If no access token, show the domain input */}
       {!accessToken ? (
@@ -130,6 +130,7 @@ const Login = () => {
                 {loading ? "Logging in..." : "Log in"}
               </button>
             </div>
+            {error && <p className="text-red-500">{error}</p>}
           </form>
         </div>
       )}

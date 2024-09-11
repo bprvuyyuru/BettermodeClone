@@ -1,3 +1,14 @@
+export type Reaction = {
+  reaction: string;
+  count: number;
+};
+
+export type ToggleReaction = (
+  reactionName: string,
+  postId: string,
+  reactions: Reaction[]
+) => void;
+
 export interface Post {
   id: string;
   title: string;
@@ -10,10 +21,7 @@ export interface Post {
     name: string;
   };
   publishedAt: string;
-  reactions: {
-    count: number;
-    reaction: string;
-  }[];
+  reactions: Reaction[];
 }
 
 export interface PostsData {
@@ -40,10 +48,7 @@ export interface PostDetail {
     name: string;
   };
   publishedAt: string;
-  reactions: {
-    count: number;
-    reaction: string;
-  }[];
+  reactions: Reaction[];
 }
 
 export interface PostDetailData {
@@ -60,9 +65,9 @@ export interface CardProps {
   owner: string;
   space: string;
   publishedAt: string;
-  reactions: { count: number; reaction: string }[];
+  reactions: Reaction[];
   postId: string;
-  toggleReaction: (reactionName: string, postId: string) => void;
+  toggleReaction: ToggleReaction;
 }
 
 export interface TableboxProps {
@@ -72,11 +77,17 @@ export interface TableboxProps {
     owner: { member: { name: string } };
     space: { name: string };
     publishedAt: string;
-    reactions: Array<{ reaction: string; count: number }>;
+    reactions: Reaction[];
   }>;
-  currentPage: number;
-  totalPages: number;
-  onNextPage: () => void;
-  onPrevPage: () => void;
-  onRowClick: (postId: string) => void;
+  onLoadMore: () => void;
+  allPostsLoaded: boolean;
+  onPostClick: (postId: string) => void;
+  toggleReaction: ToggleReaction;
+}
+
+export interface ReactionProps {
+  reactions: Reaction[];
+  postId: string;
+  flipStyle?: boolean;
+  toggleReaction: ToggleReaction;
 }
