@@ -206,6 +206,7 @@ Here’s a breakdown of the project structure:
 
 ### Token Management Using `sessionStorage`
 
+- After Providing Network Domain, the Community token is stored in `communityToken` for secure access.
 - After a successful login, the access token is stored in `sessionStorage` for secure access.
 - Subsequent requests use the token from `sessionStorage` to authenticate the user.
 
