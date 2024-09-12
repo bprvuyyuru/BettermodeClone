@@ -54,6 +54,7 @@ const Reactions = ({ reactions, postId, toggleReaction }: ReactionProps) => {
       <div className="relative flex items-center gap-1">
         <div
           ref={buttonRef}
+          role="button"
           className={`flex items-center justify-center h-10 w-10 ${
             showAllReactions ? "bg-gray-400" : "bg-gray-200"
           }  hover:bg-gray-400 rounded-full cursor-pointer`}
@@ -66,11 +67,13 @@ const Reactions = ({ reactions, postId, toggleReaction }: ReactionProps) => {
         {showAllReactions && (
           <div
             ref={dropdownRef}
+            role="button"
             className="flex space-x-1 p-1 border border-gray-200 rounded-full absolute left-[3rem]"
           >
             {allReactions.map((reaction) => (
               <div
                 key={reaction}
+                role="button"
                 className="flex items-center justify-center h-10 w-10 bg-gray-100 hover:bg-gray-300 rounded-full cursor-pointer"
                 onClick={() => handleClick(reaction, postId)} // Add or remove reaction
               >
