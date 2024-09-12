@@ -57,8 +57,8 @@ These steps will give you a solid understanding of how BetterMode's API and sess
 - [Testing](#testing)
 - [File Structure](#file-structure)
 - [Authentication](#authentication)
-- [Mutations] (#Mutation)
-- [Resources] (#Resources)
+- [Mutations](#Mutation)
+- [Resources](#Resources)
 - [Contributing](#contributing)
 - [License](#license)
 
