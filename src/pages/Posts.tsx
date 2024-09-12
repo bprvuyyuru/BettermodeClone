@@ -58,7 +58,9 @@ const Posts = () => {
     <div className="flex flex-col justify-center px-[3rem]">
       <div className="flex p-3 items-center gap-8">
         <h1 className="text-2xl font-bold">Posts</h1>
-        <p className="text-sm">total {data?.posts.totalCount} posts</p>
+        <p className="text-sm">
+          {data!.posts.nodes.length} / {data?.posts.totalCount} posts
+        </p>
       </div>
 
       <PostsGrid
