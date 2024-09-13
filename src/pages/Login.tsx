@@ -62,7 +62,9 @@ const Login = () => {
       </div>
       {!accessToken ? (
         <div className="bg-white shadow-md rounded-3xl w-[80vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] p-[4vw] sm:p-[3vw] md:p-[2vw] lg:p-[1.5vw] flex flex-col gap-4 items-center justify-between">
-          <h1 className="text-2xl text-center">Enter Community URL</h1>
+          <h1 className="text-2xl text-center">
+            Enter Community Network Domain
+          </h1>
           <div className="flex flex-col mt-6 gap-6 items-center">
             <div className="flex items-center border rounded-3xl bg-[#36454F]">
               <i className="fas fa-solid fa-link text-[#D3D3D3] pl-6"></i>

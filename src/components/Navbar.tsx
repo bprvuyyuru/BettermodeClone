@@ -7,6 +7,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("communityToken");
     navigate("/login");
   };
 
