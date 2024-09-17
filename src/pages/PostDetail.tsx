@@ -31,11 +31,15 @@ const PostDetail = () => {
     ? formatDistanceToNow(new Date(post.publishedAt), { addSuffix: true })
     : "Unknown date";
 
+  const handleBackClick = () => {
+    navigate("/posts", { state: { refetch: true } });
+  };
+
   return (
     <div className="container mx-auto h-auto">
       <div
         className="flex items-center justify-center h-12 w-12 bg-gray-100 hover:bg-gray-600 rounded-full cursor-pointer"
-        onClick={() => navigate(-1)}
+        onClick={handleBackClick}
       >
         <i className="fas fa-solid fa-arrow-left"></i>
       </div>

@@ -3,20 +3,22 @@ import { PostsData, PostsVars } from "../types";
 import { GET_POSTS } from "../graphql/queries";
 import Spinner from "../components/Spinner";
 import useReactions from "../hooks/useReactions";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PostsGrid from "../components/PostsGrid";
+import { useEffect } from "react";
 
 const Posts = () => {
   let limit = 6; // Number of posts per page
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Fetch posts with pagination
-  const { loading, error, data, fetchMore } = useQuery<PostsData, PostsVars>(
-    GET_POSTS,
-    {
-      variables: { limit, offset: 0 },
-    }
-  );
+  const { loading, error, data, fetchMore, refetch } = useQuery<
+    PostsData,
+    PostsVars
+  >(GET_POSTS, {
+    variables: { limit, offset: 0 },
+  });
 
   const { toggleReaction } = useReactions(
     fetchMore,
@@ -24,6 +26,12 @@ const Posts = () => {
     false,
     data?.posts.nodes.length
   );
+
+  useEffect(() => {
+    if (location.state?.refetch) {
+      refetch();
+    }
+  }, [location.state, refetch]);
 
   const handleLoadMore = () => {
     fetchMore({
